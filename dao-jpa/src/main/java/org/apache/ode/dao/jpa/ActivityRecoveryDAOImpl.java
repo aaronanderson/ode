@@ -30,6 +30,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -78,7 +79,7 @@ public class ActivityRecoveryDAOImpl implements ActivityRecoveryDAO {
 
  	// _instances is unused because this is a one-way relationship at the database level
     @SuppressWarnings("unused")
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="INSTANCE_ID")
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="INSTANCE_ID")
     private ProcessInstanceDAOImpl _instance;
 
 	

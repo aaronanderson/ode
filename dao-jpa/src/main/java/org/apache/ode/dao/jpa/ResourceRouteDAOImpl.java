@@ -20,7 +20,7 @@ public class ResourceRouteDAOImpl extends OpenJPADAO implements ResourceRouteDAO
     @Basic @Column(name="ROUTE_INDEX")
     private int _index;
 
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="INSTANCE_ID")
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="INSTANCE_ID")
     private ProcessInstanceDAOImpl _instance;
 
     public ResourceRouteDAOImpl() { }

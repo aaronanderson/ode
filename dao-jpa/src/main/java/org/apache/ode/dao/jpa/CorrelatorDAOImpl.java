@@ -26,6 +26,7 @@ import org.apache.ode.bpel.dao.MessageRouteDAO;
 import org.apache.ode.bpel.dao.ProcessInstanceDAO;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -53,7 +54,7 @@ public class CorrelatorDAOImpl extends OpenJPADAO implements CorrelatorDAO {
     private Collection<MessageRouteDAOImpl> _routes = new ArrayList<MessageRouteDAOImpl>();
     @OneToMany(targetEntity=MessageExchangeDAOImpl.class,mappedBy="_correlator",fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Collection<MessageExchangeDAOImpl> _exchanges = new ArrayList<MessageExchangeDAOImpl>();
-    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="PROC_ID")
+    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="PROC_ID")
     private ProcessDAOImpl _process;
 
     public CorrelatorDAOImpl(){}

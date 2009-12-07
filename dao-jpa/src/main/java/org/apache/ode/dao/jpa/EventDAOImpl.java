@@ -29,6 +29,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -65,9 +66,9 @@ public class EventDAOImpl {
     @Basic @Column(name="SCOPE_ID")
     private Long _scopeId;
 
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="PROCESS_ID")
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="PROCESS_ID")
     private ProcessDAOImpl _process;
-    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST})	@Column(name="INSTANCE_ID")
+    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST})	@JoinColumn(name="INSTANCE_ID")
     private ProcessInstanceDAOImpl _instance;
     @Lob  @Column(name="DATA")
     private BpelEvent _event;

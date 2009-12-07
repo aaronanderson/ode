@@ -76,7 +76,7 @@ public class ProcessInstanceDAOImpl extends OpenJPADAO implements ProcessInstanc
     @Basic @Column(name="EXEC_STATE_COUNTER")
     private int _execStateCounter;
 	
-    @OneToOne(fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) @Column(name="ROOT_SCOPE_ID")
+    @OneToOne(fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) @JoinColumn(name="ROOT_SCOPE_ID")
     private ScopeDAOImpl _rootScope;
     @OneToMany(targetEntity=ScopeDAOImpl.class,mappedBy="_processInstance",fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Collection<ScopeDAO> _scopes = new ArrayList<ScopeDAO>();
@@ -85,13 +85,13 @@ public class ProcessInstanceDAOImpl extends OpenJPADAO implements ProcessInstanc
     @Basic @Column(name="FAULT_ID", insertable=false, updatable=false, nullable=true)
     @SuppressWarnings("unused")
     private long _faultId;
-	@OneToOne(fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) @Column(name="FAULT_ID")
+	@OneToOne(fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) @JoinColumn(name="FAULT_ID")
 	private FaultDAOImpl _fault;
     @OneToMany(targetEntity=ResourceRouteDAOImpl.class,mappedBy="_instance",fetch=FetchType.LAZY,cascade={CascadeType.ALL})
     private Collection<ResourceRouteDAO> _resourceRoutes = new ArrayList<ResourceRouteDAO>();
-	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="PROCESS_ID")
+	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="PROCESS_ID")
 	private ProcessDAOImpl _process;
-	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="INSTANTIATING_CORRELATOR_ID")
+	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="INSTANTIATING_CORRELATOR_ID")
 	private CorrelatorDAOImpl _instantiatingCorrelator;
 	
 	private transient int _activityFailureCount = -1;

@@ -31,6 +31,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -59,9 +60,9 @@ public class MessageRouteDAOImpl implements MessageRouteDAO {
     @Basic @Column(name="PROCESS_INSTANCE_ID", insertable=false, updatable=false, nullable=true)
     @SuppressWarnings("unused")
     private int _instanceId;
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="PROCESS_INSTANCE_ID")
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="PROCESS_INSTANCE_ID")
     private ProcessInstanceDAOImpl _processInst;
-    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="CORR_ID")
+    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="CORR_ID")
     private CorrelatorDAOImpl _correlator;
 
     public MessageRouteDAOImpl() {}

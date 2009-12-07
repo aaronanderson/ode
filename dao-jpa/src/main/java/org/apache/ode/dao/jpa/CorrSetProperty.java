@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -55,7 +56,7 @@ public class CorrSetProperty {
     @Basic @Column(name="CORRSET_ID", insertable=false, updatable=false, nullable=true)
     private Long corrSetId;
 
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="CORRSET_ID")
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="CORRSET_ID")
     private CorrelationSetDAOImpl _corrSet;
 
     public CorrSetProperty() {

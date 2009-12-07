@@ -31,6 +31,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -84,7 +85,7 @@ public class PartnerLinkDAOImpl extends OpenJPADAO implements PartnerLinkDAO {
     @Basic @Column(name="SCOPE_ID", nullable=true, insertable=false, updatable=false)
     @SuppressWarnings("unused")
     private Long _scopeId;
-    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="SCOPE_ID")
+    @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="SCOPE_ID")
     @SuppressWarnings("unused")
     private ScopeDAOImpl _scope;
     

@@ -35,6 +35,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -70,7 +71,7 @@ public class ScopeDAOImpl extends OpenJPADAO implements ScopeDAO {
     private String _scopeState;
 
 	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST})
-	@Column(name="PARENT_SCOPE_ID")
+	@JoinColumn(name="PARENT_SCOPE_ID")
 	private ScopeDAOImpl _parentScope;
 	
 	@OneToMany(targetEntity=ScopeDAOImpl.class,mappedBy="_parentScope",fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
@@ -81,7 +82,7 @@ public class ScopeDAOImpl extends OpenJPADAO implements ScopeDAO {
     private Collection<PartnerLinkDAO> _partnerLinks = new ArrayList<PartnerLinkDAO>();
     @OneToMany(targetEntity=XmlDataDAOImpl.class,mappedBy="_scope",fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Collection<XmlDataDAO> _variables = new ArrayList<XmlDataDAO>();
-	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="PROCESS_INSTANCE_ID")
+	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="PROCESS_INSTANCE_ID")
 	private ProcessInstanceDAOImpl _processInstance;
 
 	public ScopeDAOImpl() {}

@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -71,7 +72,7 @@ public class ContextValueDAOImpl extends OpenJPADAO implements ContextValueDAO {
 
     @SuppressWarnings("unused")
     @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) 
-    @Column(name="PLINK")
+    @JoinColumn(name="PLINK")
     private PartnerLinkDAOImpl _partnerLink;
 
 

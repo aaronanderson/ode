@@ -27,6 +27,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -56,7 +57,7 @@ public class XmlDataProperty {
     @SuppressWarnings("unused")
     private Long _xmlDataId;
     @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST})
-    @Column(name="XML_DATA_ID")
+    @JoinColumn(name="XML_DATA_ID")
     @SuppressWarnings("unused")
     private XmlDataDAOImpl _xmlData;
 

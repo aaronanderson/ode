@@ -32,6 +32,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -69,7 +70,7 @@ public class CorrelationSetDAOImpl implements CorrelationSetDAO {
 
     @OneToMany(targetEntity=CorrSetProperty.class,mappedBy="_corrSet",fetch=FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Collection<CorrSetProperty> _props = new ArrayList<CorrSetProperty>();
-    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @Column(name="SCOPE_ID")
+    @ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST}) @JoinColumn(name="SCOPE_ID")
     private ScopeDAOImpl _scope;
 
     public CorrelationSetDAOImpl() {}

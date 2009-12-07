@@ -27,6 +27,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -57,7 +58,7 @@ public class MexProperty {
     @SuppressWarnings("unused")
     private String _mexId;
     @ManyToOne(fetch= FetchType.LAZY,cascade={CascadeType.PERSIST})
-    @Column(name="MEX_ID")
+    @JoinColumn(name="MEX_ID")
     private MessageExchangeDAOImpl _mex;
 
     public MexProperty() {
