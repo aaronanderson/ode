@@ -32,10 +32,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import org.apache.ode.bpel.dao.ContextValueDAO;
-import org.apache.openjpa.persistence.jdbc.Index;
 
 @Entity
 @Table(name="ODE_CONTEXT_VALUE")
@@ -43,7 +41,7 @@ import org.apache.openjpa.persistence.jdbc.Index;
     @NamedQuery(name=ContextValueDAOImpl.DELETE_CONTEXT_VALUES_BY_KEYS, query="delete from ContextValueDAOImpl as l where l._key = :key and l._namespace = :namespace")
 })
 
-public class ContextValueDAOImpl extends OpenJPADAO implements ContextValueDAO {
+public class ContextValueDAOImpl extends JPADAO implements ContextValueDAO {
 	public static final String DELETE_CONTEXT_VALUES_BY_KEYS = "DELETE_CONTEXT_VALUES_BY_KEYS";
 	
     @Id @Column(name="CONTEXT_VALUE_ID") 
@@ -52,18 +50,21 @@ public class ContextValueDAOImpl extends OpenJPADAO implements ContextValueDAO {
     private Long _id;
 
     @Basic @Column(name="NAMESPACE")
-    @Index(name="IDX_CTX_NS", enabled=true, unique=false)
+    //TODO: can we move this specific annotation into XML property??
+    //@Index(name="IDX_CTX_NS", enabled=true, unique=false)
     private String _namespace;
 
     @Basic @Column(name="KEY_NAME")
-    @Index(name="IDX_CTX_KEY", enabled=true, unique=false)
+    //TODO: can we move this specific annotation into XML property??
+    //@Index(name="IDX_CTX_KEY", enabled=true, unique=false)
     private String _key;
 
     @Lob @Column(name="DATA")
     private String _data;
     
     @Basic @Column(name="VALUE")
-    @Index(name="IDX_CTX_VAL", enabled=true, unique=false)
+    //TODO: can we move this specific annotation into XML property??
+    //@Index(name="IDX_CTX_VAL", enabled=true, unique=false)
     private String _value;
     
 //    @Basic @Column(name="PARTNER_LINK_ID", nullable=true, insertable=false, updatable=false)

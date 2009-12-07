@@ -18,30 +18,27 @@
  */
 package org.apache.ode.dao.jpa;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.ode.bpel.dao.BpelDAOConnection;
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactoryJDBC;
-import org.apache.openjpa.ee.ManagedRuntime;
-import org.apache.openjpa.util.GeneralException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.sql.DataSource;
-import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
-import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.ode.bpel.dao.BpelDAOConnection;
+import org.apache.ode.bpel.dao.BpelDAOConnectionFactoryJDBC;
 
 /**
  * @author Matthieu Riou <mriou at apache dot org>
+ * @author Jeff Yu
  */
 public class BPELDAOConnectionFactoryImpl implements BpelDAOConnectionFactoryJDBC {
     static final Log __log = LogFactory.getLog(BPELDAOConnectionFactoryImpl.class);
@@ -50,10 +47,12 @@ public class BPELDAOConnectionFactoryImpl implements BpelDAOConnectionFactoryJDB
     private TransactionManager _tm;
     private DataSource _ds;
     private Object _dbdictionary;
+    private JPADaoOperator _operator;
 
     static ThreadLocal<BPELDAOConnectionImpl> _connections = new ThreadLocal<BPELDAOConnectionImpl>();
 
     public BPELDAOConnectionFactoryImpl() {
+    	_operator = JPADaoOperatorFactory.getJPADaoOperator();
     }
 
     public BpelDAOConnection getConnection() {
@@ -87,26 +86,20 @@ public class BPELDAOConnectionFactoryImpl implements BpelDAOConnectionFactoryJDB
     protected BPELDAOConnectionImpl createBPELDAOConnection(EntityManager em) {
         return new BPELDAOConnectionImpl(em);
     }
-
+    
+    @SuppressWarnings("unchecked")
     public void init(Properties properties) {
-        HashMap<String, Object> propMap = new HashMap<String,Object>();
-
-//        propMap.put("openjpa.Log", "DefaultLevel=TRACE");
-        propMap.put("openjpa.Log", "log4j");
-//        propMap.put("openjpa.jdbc.DBDictionary", "org.apache.openjpa.jdbc.sql.DerbyDictionary");
-
-        propMap.put("openjpa.ManagedRuntime", new TxMgrProvider());
-        propMap.put("openjpa.ConnectionFactory", _ds);
-        propMap.put("openjpa.ConnectionFactoryMode", "managed");
-        propMap.put("openjpa.FlushBeforeQueries", "false");
+        
+        Map<String, Object> propMap = _operator.getInitializeProperties(_ds, false, _tm);
 
         if (_dbdictionary != null)
             propMap.put("openjpa.jdbc.DBDictionary", _dbdictionary);
 
-        if (properties != null)
-            for (Map.Entry me : properties.entrySet())
+        if (properties != null) {
+            for (Map.Entry me : properties.entrySet()){
                 propMap.put((String)me.getKey(),me.getValue());
-
+            }
+        }
         _emf = Persistence.createEntityManagerFactory("ode-dao", propMap);
     }
 
@@ -134,57 +127,5 @@ public class BPELDAOConnectionFactoryImpl implements BpelDAOConnectionFactoryJDB
     public void shutdown() {
         _emf.close();
     }
-
-
-    private class TxMgrProvider implements ManagedRuntime {
-        public TxMgrProvider() {
-        }
-        
-        public TransactionManager getTransactionManager() throws Exception {
-            return _tm;
-        }
-        public void setRollbackOnly(Throwable cause) throws Exception {
-            // there is no generic support for setting the rollback cause
-            getTransactionManager().getTransaction().setRollbackOnly();
-        }
-        public Throwable getRollbackCause() throws Exception {
-            // there is no generic support for setting the rollback cause
-            return null;
-        }
-        public Object getTransactionKey() throws Exception, SystemException {
-            return _tm.getTransaction();
-        }
-
-        public void doNonTransactionalWork(java.lang.Runnable runnable) throws NotSupportedException {
-            TransactionManager tm = null;
-            Transaction transaction = null;
-            
-            try { 
-                tm = getTransactionManager(); 
-                transaction = tm.suspend();
-            } catch (Exception e) {
-                NotSupportedException nse =
-                    new NotSupportedException(e.getMessage());
-                nse.initCause(e);
-                throw nse;
-            }
-            
-            runnable.run();
-            
-            try {
-                tm.resume(transaction);
-            } catch (Exception e) {
-                try {
-                    transaction.setRollbackOnly();
-                }
-                catch(SystemException se2) {
-                    throw new GeneralException(se2);
-                }
-                NotSupportedException nse =
-                    new NotSupportedException(e.getMessage());
-                nse.initCause(e);
-                throw nse;
-            } 
-        }
-    }
+    
 }

@@ -54,7 +54,7 @@ import java.util.List;
     @NamedQuery(name=ScopeDAOImpl.SELECT_SCOPE_IDS_BY_INSTANCE, query="select s._scopeInstanceId from ScopeDAOImpl as s where s._processInstance = :instance"),
     @NamedQuery(name=ScopeDAOImpl.DELETE_SCOPES_BY_SCOPE_IDS, query="delete from ScopeDAOImpl as s where s._scopeInstanceId in(:ids)")
 })
-public class ScopeDAOImpl extends OpenJPADAO implements ScopeDAO {
+public class ScopeDAOImpl extends JPADAO implements ScopeDAO {
     public final static String SELECT_SCOPE_IDS_BY_PROCESS = "SELECT_SCOPE_IDS_BY_PROCESS";
     public final static String SELECT_SCOPE_IDS_BY_INSTANCE = "SELECT_SCOPE_IDS_BY_INSTANCE";
     public final static String DELETE_SCOPES_BY_SCOPE_IDS = "DELETE_SCOPES_BY_SCOPE_IDS";

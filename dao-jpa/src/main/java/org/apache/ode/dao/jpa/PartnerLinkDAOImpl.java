@@ -52,7 +52,7 @@ import org.w3c.dom.Element;
 @NamedQueries({
     @NamedQuery(name=PartnerLinkDAOImpl.DELETE_PARTNER_LINKS_BY_SCOPE_IDS, query="delete from PartnerLinkDAOImpl as l where l._scopeId in (:scopeIds)")
 })
-public class PartnerLinkDAOImpl extends OpenJPADAO implements PartnerLinkDAO {
+public class PartnerLinkDAOImpl extends JPADAO implements PartnerLinkDAO {
     public final static String DELETE_PARTNER_LINKS_BY_SCOPE_IDS = "DELETE_PARTNER_LINKS_BY_SCOPE_IDS";
 
 	@Id @Column(name="PARTNER_LINK_ID") 

@@ -60,7 +60,7 @@ import org.w3c.dom.Element;
     @NamedQuery(name=MessageExchangeDAOImpl.DELETE_MEXS_BY_PROCESS, query="delete from MessageExchangeDAOImpl as m where m._process = :process"),
     @NamedQuery(name=MessageExchangeDAOImpl.SELECT_MEX_IDS_BY_PROCESS, query="select m._id from MessageExchangeDAOImpl as m where m._process = :process")
 })
-public class MessageExchangeDAOImpl extends OpenJPADAO implements MessageExchangeDAO {
+public class MessageExchangeDAOImpl extends JPADAO implements MessageExchangeDAO {
     private static final Log __log = LogFactory.getLog(MessageExchangeDAOImpl.class);
     
     public final static String DELETE_MEXS_BY_PROCESS = "DELETE_MEXS_BY_PROCESS";

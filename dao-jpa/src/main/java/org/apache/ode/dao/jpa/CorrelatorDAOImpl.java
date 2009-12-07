@@ -42,7 +42,7 @@ import java.util.List;
                    "and route._correlator._correlatorKey = :corrkey"),
     @NamedQuery(name=CorrelatorDAOImpl.DELETE_CORRELATORS_BY_PROCESS, query="delete from CorrelatorDAOImpl as c where c._process = :process")
 })
-public class CorrelatorDAOImpl extends OpenJPADAO implements CorrelatorDAO {
+public class CorrelatorDAOImpl extends JPADAO implements CorrelatorDAO {
     public final static String DELETE_CORRELATORS_BY_PROCESS = "DELETE_CORRELATORS_BY_PROCESS";
 
     @Id @Column(name="CORRELATOR_ID")

@@ -42,7 +42,7 @@ import java.util.*;
 			query="select count(i._instanceId), max(i._lastRecovery) from ProcessInstanceDAOImpl as i where i._process._processId = :processId and i._state in(:states) and exists(select r from ActivityRecoveryDAOImpl r where i = r._instance)")
 })
 
-public class ProcessInstanceDAOImpl extends OpenJPADAO implements ProcessInstanceDAO {
+public class ProcessInstanceDAOImpl extends JPADAO implements ProcessInstanceDAO {
 	private static final Log __log = LogFactory.getLog(ProcessInstanceDAOImpl.class);
 	
 	public final static String DELETE_INSTANCES_BY_PROCESS = "DELETE_INSTANCES_BY_PROCESS";

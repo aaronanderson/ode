@@ -29,8 +29,6 @@ import org.apache.ode.bpel.evt.BpelEvent;
 import org.apache.ode.bpel.evt.ScopeEvent;
 import org.apache.ode.bpel.iapi.ProcessConf.CLEANUP_CATEGORY;
 import org.apache.ode.utils.ISO8601DateParser;
-import org.apache.openjpa.persistence.OpenJPAPersistence;
-import org.apache.openjpa.persistence.OpenJPAQuery;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -285,9 +283,8 @@ public class BPELDAOConnectionImpl implements BpelDAOConnection {
         
         // criteria limit
         Query pq = _em.createQuery(query.toString());
-        OpenJPAQuery kq = OpenJPAPersistence.cast(pq);
-        kq.getFetchPlan().setFetchBatchSize(criteria.getLimit());       
-        List<ProcessInstanceDAO> ql = kq.getResultList();
+        JPADaoOperatorFactory.getJPADaoOperator().setBatchSize(pq, criteria.getLimit());       
+        List<ProcessInstanceDAO> ql = pq.getResultList();
        
         Collection<ProcessInstanceDAO> list = new ArrayList<ProcessInstanceDAO>();
         int num = 0;

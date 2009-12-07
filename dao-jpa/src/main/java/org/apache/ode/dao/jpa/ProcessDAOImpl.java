@@ -48,7 +48,7 @@ import java.util.List;
             "FROM CorrelatorDAOImpl as c" +
             " WHERE c._correlatorKey = :ckey AND c._process = :process")
 })
-public class ProcessDAOImpl extends OpenJPADAO implements ProcessDAO {
+public class ProcessDAOImpl extends JPADAO implements ProcessDAO {
     private static final Log __log = LogFactory.getLog(ProcessDAOImpl.class);
 
     @Id @Column(name="ID")
