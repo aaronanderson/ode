@@ -22,6 +22,8 @@ package org.apache.ode.store.jpa;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -30,6 +32,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="STORE_PROCESS_PROP")
 public class ProcessConfPropertyDaoImpl {
+	
+	@Id @Column(name="id")
+	@GeneratedValue
+	private Long _id;
 
     @Basic @Column(name="PROP_KEY")
     private String _key;
@@ -51,4 +57,12 @@ public class ProcessConfPropertyDaoImpl {
     public void setValue(String value) {
         _value = value;
     }
+    
+	public Long getId() {
+		return _id;
+	}
+
+	public void setId(Long id) {
+		this._id = id;
+	}
 }

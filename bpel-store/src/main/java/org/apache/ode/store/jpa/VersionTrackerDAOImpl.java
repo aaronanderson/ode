@@ -22,6 +22,8 @@ package org.apache.ode.store.jpa;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +33,10 @@ import javax.persistence.Table;
 @Table(name="STORE_VERSIONS")
 public class VersionTrackerDAOImpl {
 
+	@Id @Column(name="id")
+	@GeneratedValue
+	private Long _id;
+	
     @Basic @Column(name="VERSION")
     private long _version;
 
@@ -41,4 +47,12 @@ public class VersionTrackerDAOImpl {
     public void setVersion(long version) {
         _version = version;
     }
+    
+	public Long getId() {
+		return _id;
+	}
+
+	public void setId(Long id) {
+		this._id = id;
+	}
 }
