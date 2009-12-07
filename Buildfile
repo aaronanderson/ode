@@ -496,9 +496,25 @@ define "ode" do
   define "dao-jpa" do
     compile.with projects("bpel-api", "bpel-dao", "utils"),
       COMMONS.collections, COMMONS.logging, JAVAX.connector, JAVAX.persistence, JAVAX.transaction,
-      OPENJPA, XERCES
-    compile { open_jpa_enhance }
+      XERCES
     package :jar
+  end
+
+  desc "ODE Hibernate DAO Implementation"
+  define "dao-jpa-hibernate" do
+    compile.with projects("bpel-api", "utils", "bpel-dao", "dao-jpa"),
+	  COMMONS.collections, COMMONS.logging, JAVAX.connector, JAVAX.persistence, JAVAX.transaction,
+	  HIBERNATE, XERCES
+	package :jar
+  end
+
+  desc "ODE OpenJPA DAO Implementation"
+  define "dao-jpa-ojpa" do
+   compile.with projects("bpel-api", "bpel-dao", "utils","dao-jpa"),
+     COMMONS.collections, COMMONS.logging, JAVAX.connector, JAVAX.persistence, JAVAX.transaction,
+     OPENJPA, XERCES 
+   compile { open_jpa_enhance }
+   package :jar
   end
 
   desc "ODE OpenJPA Derby Database"
