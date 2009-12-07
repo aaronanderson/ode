@@ -43,7 +43,7 @@ import javax.persistence.Query;
 /**
  * OpenJPA based {@link ProcessProfileDAO} implementation
  */
-public class ProcessProfileDAOImpl extends OpenJPADAO implements ProcessProfileDAO {
+public class ProcessProfileDAOImpl implements ProcessProfileDAO {
 	@SuppressWarnings("unused")
 	private static final Log __log = LogFactory.getLog(ProcessProfileDAOImpl.class);
 	

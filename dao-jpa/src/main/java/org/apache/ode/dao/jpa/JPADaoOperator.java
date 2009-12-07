@@ -3,7 +3,6 @@ package org.apache.ode.dao.jpa;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.sql.DataSource;
 import javax.transaction.TransactionManager;
@@ -16,8 +15,6 @@ import javax.transaction.TransactionManager;
  *
  */
 public interface JPADaoOperator {
-	
-	public EntityManager getEM();
 	
 	public <T> void batchUpdateByIds(Iterator<T> ids, Query query, String parameterName);
 	
