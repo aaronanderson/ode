@@ -8,8 +8,8 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ode.bpel.dao.DeferredProcessInstanceCleanable;
-import org.apache.ode.bpel.dao.ProcessDAO;
+import org.apache.ode.dao.bpel.DeferredProcessInstanceCleanable;
+import org.apache.ode.dao.bpel.ProcessDAO;
 import org.apache.ode.bpel.engine.BpelServerImpl.ContextsAware;
 import org.apache.ode.bpel.iapi.Scheduler.JobDetails;
 import org.apache.ode.bpel.iapi.Scheduler.MapSerializableRunnable;

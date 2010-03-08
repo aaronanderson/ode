@@ -85,6 +85,10 @@ public class OdeConfigProperties {
     public static final String PROP_ATOMIC_SCOPES_RETRY_DELAY = "scopes.atomic.retry.delay";
     
     public static final String PROP_DAOCF = "dao.factory";
+
+    public static final String PROP_DAOCF_STORE = "dao.factory.store";
+
+    public static final String PROP_DAOCF_SCHEDULE = "dao.factory.schedule";
     
     public static final String PROP_EXTENSION_BUNDLES_RT = "extension.bundles.runtime";
     public static final String PROP_EXTENSION_BUNDLES_VAL = "extension.bundles.validation";
@@ -99,7 +103,9 @@ public class OdeConfigProperties {
 
     /** Default defaults for the database embedded name and dao connection factory class. */
     public static String DEFAULT_DB_EMB_NAME = "jpadb";
-    private static String __daoCfClass = "org.apache.ode.dao.jpa.BPELDAOConnectionFactoryImpl";
+    private static String __daoCfClass = "org.apache.ode.dao.jpa.openjpa.OpenJPABpelDAOConnectionFactoryImpl";
+    private static String __daoCfStoreClass = "org.apache.ode.dao.jpa.openjpa.OpenJPAConfStoreDAOConnectionFactoryImpl";
+    private static String __daoCfSchedulerClass = "org.apache.ode.dao.jpa.openjpa.OpenJPAScheduleDAOConnectionFactoryImpl";
 
     static {
         String odep = System.getProperty("ode.persistence");
@@ -107,8 +113,9 @@ public class OdeConfigProperties {
                 "hibernate".equalsIgnoreCase(odep)) {
             __log.debug("Using HIBERNATE due to system property override!");
             DEFAULT_DB_EMB_NAME = "hibdb";
-            __daoCfClass = "org.apache.ode.daohib.bpel.BpelDAOConnectionFactoryImpl";
-
+            __daoCfClass = "org.apache.ode.dao.hib.bpel.BpelDAOConnectionFactoryImpl";
+            __daoCfStoreClass = "org.apache.ode.dao.hib.store.BpelDAOStoreConnectionFactoryImpl";
+            __daoCfSchedulerClass = "org.apache.ode.dao.hib.schedule.BpelDAOScheduleConnectionFactoryImpl";
         }
     }
     /**
@@ -187,6 +194,14 @@ public class OdeConfigProperties {
 
     public String getDAOConnectionFactory() {
         return getProperty(PROP_DAOCF, __daoCfClass);
+    }
+
+    public String getDAOConfStoreConnectionFactory() {
+        return getProperty(PROP_DAOCF_STORE, __daoCfStoreClass);
+    }
+
+    public String getDAOSchedulerConnectionFactory() {
+        return getProperty(PROP_DAOCF_SCHEDULE, __daoCfSchedulerClass);
     }
 
     public String getDbDataSource() {

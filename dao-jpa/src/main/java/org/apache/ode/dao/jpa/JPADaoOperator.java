@@ -1,11 +1,8 @@
 package org.apache.ode.dao.jpa;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.persistence.Query;
-import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
 
 /**
  * this is interface that will include the methods that will be used in JPA DAO,
@@ -14,12 +11,10 @@ import javax.transaction.TransactionManager;
  * @author Jeff Yu
  *
  */
-public interface JPADaoOperator {
+public interface JPADAOOperator {
 	
 	public <T> void batchUpdateByIds(Iterator<T> ids, Query query, String parameterName);
 	
 	public void setBatchSize(Query query, int limit);
-	
-	public Map<String, Object> getInitializeProperties(DataSource ds, boolean createDatamodel, TransactionManager tx);
 
 }

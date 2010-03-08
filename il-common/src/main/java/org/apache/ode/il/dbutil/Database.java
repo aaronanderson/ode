@@ -37,7 +37,8 @@ import org.apache.geronimo.connector.outbound.connectionmanagerconfig.Transactio
 import org.apache.geronimo.connector.outbound.connectiontracking.ConnectionTracker;
 import org.apache.geronimo.connector.outbound.connectiontracking.ConnectionTrackingCoordinator;
 import org.apache.geronimo.transaction.manager.RecoverableTransactionManager;
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactoryJDBC;
+import org.apache.ode.dao.JDBCContext;
+import org.apache.ode.dao.bpel.BpelDAOConnectionFactory;
 import org.apache.ode.il.config.OdeConfigProperties;
 import org.apache.ode.utils.LoggingInterceptor;
 import org.tranql.connector.jdbc.JDBCDriverMCF;
@@ -134,8 +135,10 @@ public class Database {
         _started = false;
     }
 
-    public DataSource getDataSource() {
-        return __logSql.isDebugEnabled() ? LoggingInterceptor.createLoggingDS(_datasource, __logSql) : _datasource;
+    public JDBCContext getContext() {
+
+        DataSource ds =  __logSql.isDebugEnabled() ? LoggingInterceptor.createLoggingDS(_datasource, __logSql) : _datasource;
+        return new JDBCContext(ds,_txm,true);        
     }
 
     private void initDataSource() throws DatabaseConfigException {
@@ -257,23 +260,21 @@ public class Database {
         }
     }
 
-    public BpelDAOConnectionFactoryJDBC createDaoCF() throws DatabaseConfigException  {
+    public BpelDAOConnectionFactory createDaoCF() throws DatabaseConfigException  {
         String pClassName = _odeConfig.getDAOConnectionFactory();
 
         __log.debug(__msgs.msgOdeUsingDAOImpl(pClassName));
 
-        BpelDAOConnectionFactoryJDBC cf;
+        BpelDAOConnectionFactory cf;
         try {
-            cf = (BpelDAOConnectionFactoryJDBC) Class.forName(pClassName).newInstance();
+            cf = (BpelDAOConnectionFactory) Class.forName(pClassName).newInstance();
         } catch (Exception ex) {
             String errmsg = __msgs.msgDAOInstantiationFailed(pClassName);
             __log.error(errmsg, ex);
             throw new DatabaseConfigException(errmsg, ex);
         }
 
-        cf.setDataSource(getDataSource());
-        cf.setTransactionManager(_txm);
-        cf.init(_odeConfig.getProperties());
+        cf.init(_odeConfig.getProperties(),getContext());
         return cf;
     }
 

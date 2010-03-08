@@ -30,7 +30,7 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ode.dao.jpa.JPADaoOperator;
+import org.apache.ode.dao.jpa.JPADAOOperator;
 import org.apache.openjpa.persistence.OpenJPAPersistence;
 import org.apache.openjpa.persistence.OpenJPAQuery;
 
@@ -40,7 +40,7 @@ import org.apache.openjpa.persistence.OpenJPAQuery;
  * @author Matthieu Riou <mriou at apache dot org>
  * @author Jeff Yu
  */
-public class OpenJPADaoOperator implements JPADaoOperator {
+public class OpenJPADaoOperator implements JPADAOOperator {
 	private static final Log __log = LogFactory.getLog(OpenJPADaoOperator.class);
 
     public <T> void batchUpdateByIds(Iterator<T> ids, Query query, String parameterName) {
@@ -60,23 +60,6 @@ public class OpenJPADaoOperator implements JPADaoOperator {
     		}
     	}
     }
-
-	public Map<String, Object> getInitializeProperties(DataSource ds, boolean createDatamodel, TransactionManager tx) {
-        HashMap<String, Object> propMap = new HashMap<String,Object>();
-        propMap.put("openjpa.Log", "log4j");
-        propMap.put("openjpa.ManagedRuntime", new JpaTxMgrProvider(tx));
-        propMap.put("openjpa.ConnectionFactory", ds);
-        propMap.put("openjpa.ConnectionFactoryMode", "managed");
-        propMap.put("openjpa.FlushBeforeQueries", "false");
-        propMap.put("openjpa.FetchBatchSize", 1000);
-        propMap.put("openjpa.jdbc.TransactionIsolation", "read-committed");
-        
-        if (createDatamodel) {
-        	propMap.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=false)");
-        }
-        
-        return propMap;
-	}
 
 	public void setBatchSize(Query query, int limit) {
         OpenJPAQuery kq = OpenJPAPersistence.cast(query);

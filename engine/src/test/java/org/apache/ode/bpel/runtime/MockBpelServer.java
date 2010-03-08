@@ -31,11 +31,11 @@ import javax.transaction.TransactionManager;
 import javax.wsdl.PortType;
 import javax.xml.namespace.QName;
 
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactoryJDBC;
+import org.apache.ode.dao.bpel.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
 import org.apache.ode.bpel.iapi.*;
-import org.apache.ode.dao.jpa.BPELDAOConnectionFactoryImpl;
+import org.apache.ode.dao.JDBCContext;
+import org.apache.ode.dao.jpa.openjpa.OpenJPABpelDAOConnectionFactoryImpl;
 import org.apache.ode.il.EmbeddedGeronimoFactory;
 import org.apache.ode.il.MockScheduler;
 import org.apache.ode.il.config.OdeConfigProperties;
@@ -87,7 +87,8 @@ class MockBpelServer {
             _server.setDaoConnectionFactory(_daoCF);
             if (_scheduler == null)
                 throw new RuntimeException("No scheduler");
-            _store = new ProcessStoreImpl(_eprContext, _dataSource,"jpa", new OdeConfigProperties(new Properties(), ""), true);
+            JDBCContext ctx = new JDBCContext(_dataSource, null, true);
+            _store = new ProcessStoreImpl(_eprContext, ctx, new OdeConfigProperties(new Properties(), ""));
             _server.setTransactionManager(_txManager);
             _server.setScheduler(_scheduler);
             _server.setEndpointReferenceContext(_eprContext);
@@ -172,13 +173,11 @@ class MockBpelServer {
         if (_dataSource == null)
             throw new RuntimeException("No data source");
 
-        BpelDAOConnectionFactoryJDBC daoCF = new BPELDAOConnectionFactoryImpl();
-        daoCF.setDataSource(_dataSource);
-        daoCF.setTransactionManager(_txManager);
+        OpenJPABpelDAOConnectionFactoryImpl daoCF = new OpenJPABpelDAOConnectionFactoryImpl();
+        JDBCContext ctx= new JDBCContext(_dataSource, _txManager, true);
         Properties props = new Properties();
         props.put("openjpa.Log", "log4j");
-        props.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=false)");
-        daoCF.init(props);
+        daoCF.init(props,ctx);
         _daoCF = daoCF;
 
         return _daoCF;
