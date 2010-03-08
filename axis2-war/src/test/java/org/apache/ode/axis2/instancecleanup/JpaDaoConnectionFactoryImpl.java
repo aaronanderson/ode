@@ -6,8 +6,8 @@ import javax.persistence.EntityManager;
 
 import org.apache.ode.bpel.dao.ProcessDAO;
 import org.apache.ode.bpel.dao.ProcessInstanceDAO;
-import org.apache.ode.bpel.dao.ProcessInstanceProfileDAO;
-import org.apache.ode.bpel.dao.ProcessProfileDAO;
+import org.apache.ode.dao.bpel.ProcessInstanceProfileDAO;
+import org.apache.ode.dao.bpel.ProcessProfileDAO;
 import org.apache.ode.dao.jpa.BPELDAOConnectionFactoryImpl;
 import org.apache.ode.dao.jpa.BPELDAOConnectionImpl;
 import org.apache.ode.dao.jpa.ProcessDAOImpl;

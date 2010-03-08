@@ -43,7 +43,7 @@ import org.apache.ode.bpel.extension.ExtensionBundleRuntime;
 import org.apache.ode.bpel.extension.ExtensionBundleValidation;
 import org.apache.ode.bpel.connector.BpelServerConnector;
 import org.apache.ode.bpel.context.ContextInterceptor;
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactoryJDBC;
+import org.apache.ode.dao.bpel.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
 import org.apache.ode.bpel.engine.ProcessAndInstanceManagementMBean;
 import org.apache.ode.bpel.evtproc.DebugBpelEventListener;
@@ -51,6 +51,7 @@ import org.apache.ode.bpel.iapi.BpelEventListener;
 import org.apache.ode.bpel.intercept.MessageExchangeInterceptor;
 import org.apache.ode.bpel.rtrep.common.extension.AbstractExtensionBundle;
 import org.apache.ode.bpel.extvar.jdbc.JdbcExternalVariableModule;
+import org.apache.ode.dao.JDBCContext;
 import org.apache.ode.il.dbutil.Database;
 import org.apache.ode.il.dbutil.DatabaseConfigException;
 import org.apache.ode.jbi.msgmap.Mapper;
@@ -231,9 +232,7 @@ public class OdeLifeCycle implements ComponentLifeCycle {
         sched.setJobProcessor(_ode._server);
         sched.setTransactionManager((TransactionManager) _ode.getContext().getTransactionManager());
         _ode._scheduler = sched;
-
-        _ode._store = new ProcessStoreImpl(_ode._eprContext, _ode._dataSource,
-                _ode._config.getDAOConnectionFactory(), _ode._config, false);
+        _ode._store = new ProcessStoreImpl(_ode._eprContext, _db.getContext(), _ode._config);
         registerExternalVariableModules();
         _ode._store.loadAll();
 
@@ -264,7 +263,7 @@ public class OdeLifeCycle implements ComponentLifeCycle {
      * @throws JBIException
      */
     private void initDao() throws JBIException {
-        BpelDAOConnectionFactoryJDBC cf;
+        BpelDAOConnectionFactory cf;
         try {
             cf = _db.createDaoCF();
         } catch (DatabaseConfigException e) {

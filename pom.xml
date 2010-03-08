@@ -126,6 +126,8 @@
       <module>bpel-store</module>
 	  <module>dao-test</module>
 	  <module>dao-jpa-db</module>
+	  <module>dao-jpa-ojpa</module>
+	  <module>dao-jpa-hibernate</module>
       <module>dao-hibernate-db</module>
       <module>engine</module>
       <module>bpel-connector</module>

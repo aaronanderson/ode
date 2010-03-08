@@ -135,8 +135,12 @@ public class Database {
         _started = false;
     }
 
-    public JDBCContext getContext() {
+    public DataSource getDataSource() {
+        DataSource ds =  __logSql.isDebugEnabled() ? LoggingInterceptor.createLoggingDS(_datasource, __logSql) : _datasource;
+        return ds;
+    }
 
+    public JDBCContext getContext() {
         DataSource ds =  __logSql.isDebugEnabled() ? LoggingInterceptor.createLoggingDS(_datasource, __logSql) : _datasource;
         return new JDBCContext(ds,_txm,true);        
     }

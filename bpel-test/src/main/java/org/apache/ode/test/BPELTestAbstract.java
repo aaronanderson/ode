@@ -34,7 +34,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
 import org.apache.ode.bpel.evtproc.DebugBpelEventListener;
 import org.apache.ode.bpel.iapi.*;
@@ -43,7 +42,9 @@ import org.apache.ode.bpel.iapi.MessageExchange.Status;
 import org.apache.ode.bpel.iapi.MyRoleMessageExchange.CorrelationStatus;
 import org.apache.ode.bpel.memdao.BpelDAOConnectionFactoryImpl;
 import org.apache.ode.bpel.rtrep.common.extension.AbstractExtensionBundle;
-import org.apache.ode.dao.jpa.BPELDAOConnectionFactoryImpl;
+import org.apache.ode.dao.HsqlJDBCContext;
+import org.apache.ode.dao.bpel.BpelDAOConnectionFactory;
+import org.apache.ode.dao.jpa.openjpa.OpenJPABpelDAOConnectionFactoryImpl;
 import org.apache.ode.il.MockScheduler;
 import org.apache.ode.il.config.OdeConfigProperties;
 import org.apache.ode.store.ProcessConfImpl;
@@ -86,6 +87,8 @@ public abstract class BPELTestAbstract {
 
     private MockTransactionManager _txm;
 
+    private HsqlJDBCContext _storeCtx;
+
     @Before
     public void setUp() throws Exception {
         _failures = new CopyOnWriteArrayList<Failure>();
@@ -94,14 +97,16 @@ public abstract class BPELTestAbstract {
         _deployments = new ArrayList<Deployment>();
         _invocations = new ArrayList<Invocation>();
         _deployed = new ArrayList<Deployment>();
+        _storeCtx = new HsqlJDBCContext();
+        _storeCtx.init();
 
         if (Boolean.getBoolean("org.apache.ode.test.persistent")) {
 
             _server.setDaoConnectionFactory(_cf);
             _txm = new MockTransactionManager();
 
-            BPELDAOConnectionFactoryImpl cf = new BPELDAOConnectionFactoryImpl();
-            cf.setTransactionManager(_txm);
+            //OpenJPABpelDAOConnectionFactoryImpl cf = new OpenJPABpelDAOConnectionFactoryImpl();
+            //cf.setTransactionManager(_txm);
             // cf.setDataSource(datasource);
             scheduler = new MockScheduler(_txm);
         } else {
@@ -128,7 +133,7 @@ public abstract class BPELTestAbstract {
                 return Collections.EMPTY_MAP;
             }
         };
-        store = new ProcessStoreImpl(eprContext, null, "jpa", new OdeConfigProperties(new Properties(), ""), true);
+        store = new ProcessStoreImpl(eprContext, _storeCtx, new OdeConfigProperties(new Properties(), ""));
         // not needed: we do eclipcitly in doDeployment
 //        store.registerListener(new ProcessStoreListener() {
 //            public void onProcessStoreEvent(ProcessStoreEvent event) {
@@ -167,6 +172,7 @@ public abstract class BPELTestAbstract {
         _deployed = null;
         _deployments = null;
         _invocations = null;
+        _storeCtx.shutdown();
     }
 
     public void registerExtensionBundle(AbstractExtensionBundle bundle) {

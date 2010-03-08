@@ -69,8 +69,9 @@ public class HCorrelator extends HObject {
     }
 
     /**
+     * @hibernate.id
      * @hibernate.property
-     * @hibernate.column name="CID" index="IDX_CORRELATOR_CID"
+     * @hibernate.column name="CID" index="IDX_CORRELATOR_CID" insert="false" update="false"
      */
     public String getCorrelatorId() {
         return _correlatorId;

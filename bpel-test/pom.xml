@@ -60,7 +60,8 @@
         </dependency>
         <dependency>
             <groupId>org.apache.ode</groupId>
-            <artifactId>ode-dao-jpa</artifactId>
+            <artifactId>ode-dao-jpa-ojpa</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.ode</groupId>
@@ -149,6 +150,11 @@
         <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+          <scope>test</scope>
         </dependency>
     </dependencies>
 

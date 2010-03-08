@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.ode.daohib.bpel;
+package org.apache.ode.dao.hib.bpel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,7 +30,7 @@ import org.apache.ode.bpel.dao.MessageExchangeDAO;
 import org.apache.ode.bpel.dao.MessageRouteDAO;
 import org.apache.ode.bpel.dao.PartnerLinkDAO;
 import org.apache.ode.bpel.dao.ProcessInstanceDAO;
-import org.apache.ode.bpel.dao.ProcessProfileDAO;
+import org.apache.ode.dao.bpel.ProcessProfileDAO;
 import org.apache.ode.bpel.dao.ScopeDAO;
 import org.apache.ode.bpel.dao.XmlDataDAO;
 import org.apache.ode.daohib.SessionManager;

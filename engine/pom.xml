@@ -93,11 +93,11 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+   <!-- <dependency>
       <groupId>org.apache.ode</groupId>
       <artifactId>ode-dao-hibernate</artifactId>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>org.apache.ode</groupId>
       <artifactId>ode-runtimes</artifactId>

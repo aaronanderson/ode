@@ -17,30 +17,34 @@
  * under the License.
  */
 
-package org.apache.ode.bpel.dao;
+package org.apache.ode.dao.bpel;
 
 import java.util.List;
 
-public interface ProcessInstanceProfileDAO extends ProcessProfileDAO {
-	ProcessDAO getProcess();
+public interface ProcessProfileDAO {
+	boolean doesProcessExist();
 	
-	List<ActivityRecoveryDAO> findActivityRecoveriesByInstance();
+	List<ProcessInstanceDAO> findInstancesByProcess();
 
-	List<CorrelationSetDAO> findCorrelationSetsByInstance();
+	List<ActivityRecoveryDAO> findActivityRecoveriesByProcess();
 
-	List<FaultDAO> findFaultsByInstance();
+	List<CorrelationSetDAO> findCorrelationSetsByProcess();
 
-	List<MessageDAO> findMessagesByInstance();
+	List<CorrelatorDAO> findCorrelatorsByProcess();
 
-	List<MessageExchangeDAO> findMessageExchangesByInstance();
+	List<FaultDAO> findFaultsByProcess();
 
-	List<MessageRouteDAO> findMessageRoutesByInstance();
+	List<MessageDAO> findMessagesByProcess();
 
-	List<PartnerLinkDAO> findPartnerLinksByInstance();
+	List<MessageExchangeDAO> findMessageExchangesByProcess();
 
-	List<ScopeDAO> findScopesByInstance();
+	List<MessageRouteDAO> findMessageRoutesByProcess();
 
-	List<XmlDataDAO> findXmlDataByInstance();
-	
-	int countEventsByInstance();
+	List<PartnerLinkDAO> findPartnerLinksByProcess();
+
+	List<ScopeDAO> findScopesByProcess();
+
+	List<XmlDataDAO> findXmlDataByProcess();
+
+	int countEventsByProcess();
 }

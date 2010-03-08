@@ -67,7 +67,7 @@ import org.apache.ode.bpel.extension.ExtensionBundleRuntime;
 import org.apache.ode.bpel.extension.ExtensionBundleValidation;
 import org.apache.ode.bpel.connector.BpelServerConnector;
 import org.apache.ode.bpel.context.ContextInterceptor;
-import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
+import org.apache.ode.dao.bpel.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
 import org.apache.ode.bpel.engine.CountLRUDehydrationPolicy;
 import org.apache.ode.bpel.engine.cron.CronScheduler;
@@ -83,6 +83,7 @@ import org.apache.ode.bpel.iapi.Scheduler;
 import org.apache.ode.bpel.intercept.MessageExchangeInterceptor;
 import org.apache.ode.bpel.pmapi.InstanceManagement;
 import org.apache.ode.bpel.pmapi.ProcessManagement;
+import org.apache.ode.dao.JDBCContext;
 import org.apache.ode.il.dbutil.Database;
 import org.apache.ode.scheduler.simple.JdbcDelegate;
 import org.apache.ode.scheduler.simple.SimpleScheduler;
@@ -503,7 +504,7 @@ public class ODEServer {
     }
 
     protected ProcessStoreImpl createProcessStore(EndpointReferenceContext eprContext, DataSource ds) {
-        return new ProcessStoreImpl(eprContext, ds, _odeConfig.getDAOConnectionFactory(), _odeConfig, false);
+        return new ProcessStoreImpl(eprContext, new JDBCContext(ds, null, false), _odeConfig);
     }
 
     protected Scheduler createScheduler() {

@@ -59,6 +59,9 @@ public class HibernateConfStoreDAOConnectionFactoryImpl implements ConfStoreDAOC
     } else {
       EntityManager em = _emf.createEntityManager();
       ConfStoreDAOConnectionImpl conn = new ConfStoreDAOConnectionImpl(em, _operator);
+      if (_ctx.getTransactionManager()!=null){
+        conn.setTransactionManager(_ctx.getTransactionManager());
+      }
       currentConnection.set(conn);
       return conn;
     }
